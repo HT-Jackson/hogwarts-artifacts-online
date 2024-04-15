@@ -11,14 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @RestController
-@RequestMapping("/api/v1/wizards")
+@RequestMapping("${api.endpoint.base-url}/wizards")
 public class WizardController {
+
     private final WizardService wizardService;
+
     private final WizardDtoToWizardConverter wizardDtoToWizardConverter; // Convert WizardDto to Wizard.
+
     private final WizardToWizardDtoConverter wizardToWizardDtoConverter; // Convert Wizard to WizardDto.
-    public WizardController(WizardService wizardService, WizardToWizardDtoConverter wizardToWizardDtoConverter, WizardDtoToWizardConverter wizardDtoToWizardConverter) {
+
+
+    public WizardController(WizardService wizardService, WizardDtoToWizardConverter wizardDtoToWizardConverter, WizardToWizardDtoConverter wizardToWizardDtoConverter) {
         this.wizardService = wizardService;
         this.wizardDtoToWizardConverter = wizardDtoToWizardConverter;
         this.wizardToWizardDtoConverter = wizardToWizardDtoConverter;
@@ -28,7 +32,7 @@ public class WizardController {
     public Result findAllWizards() {
         List<Wizard> foundWizards = this.wizardService.findAll();
 
-
+        // Convert foundWizards to a list of WizardDtos.
         List<WizardDto> wizardDtos = foundWizards.stream()
                 .map(this.wizardToWizardDtoConverter::convert)
                 .collect(Collectors.toList());
@@ -39,7 +43,7 @@ public class WizardController {
     public Result findWizardById(@PathVariable Integer wizardId) {
         Wizard foundWizard = this.wizardService.findById(wizardId);
         WizardDto wizardDto = this.wizardToWizardDtoConverter.convert(foundWizard);
-        return new Result(true, StatusCode.SUCCESS, "Find one success", wizardDto);
+        return new Result(true, StatusCode.SUCCESS, "Find One Success", wizardDto);
     }
 
     @PostMapping
@@ -69,4 +73,5 @@ public class WizardController {
         this.wizardService.assignArtifact(wizardId, artifactId);
         return new Result(true, StatusCode.SUCCESS, "Artifact Assignment Success");
     }
+
 }

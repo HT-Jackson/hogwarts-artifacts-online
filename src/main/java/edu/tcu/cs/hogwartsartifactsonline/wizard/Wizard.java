@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 public class Wizard implements Serializable {
 
@@ -20,8 +19,8 @@ public class Wizard implements Serializable {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "owner")
     private List<Artifact> artifacts = new ArrayList<>();
 
-    public Wizard() {
 
+    public Wizard() {
     }
 
     public Integer getId() {
@@ -59,7 +58,7 @@ public class Wizard implements Serializable {
 
     public void removeAllArtifacts() {
         this.artifacts.stream().forEach(artifact -> artifact.setOwner(null));
-        this.artifacts = null;
+        this.artifacts = new ArrayList<>();
     }
 
     public void removeArtifact(Artifact artifactToBeAssigned) {
@@ -67,4 +66,5 @@ public class Wizard implements Serializable {
         artifactToBeAssigned.setOwner(null);
         this.artifacts.remove(artifactToBeAssigned);
     }
+
 }

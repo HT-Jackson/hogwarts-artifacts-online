@@ -15,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-@ActiveProfiles(value = "dev")
 class WizardControllerTest {
 
     @Autowired
@@ -183,7 +181,7 @@ class WizardControllerTest {
         updatedWizard.setId(1);
         updatedWizard.setName("Updated wizard name");
 
-        String json = this.objectMapper.writeValueAsString(wizardDto);
+        String json = this.objectMapper.writeValueAsString(updatedWizard);
 
         // Given. Arrange inputs and targets. Define the behavior of Mock object wizardService.
         given(this.wizardService.update(eq(1), Mockito.any(Wizard.class))).willReturn(updatedWizard);
@@ -241,6 +239,7 @@ class WizardControllerTest {
                 .andExpect(jsonPath("$.message").value("Could not find wizard with Id 5 :("))
                 .andExpect(jsonPath("$.data").isEmpty());
     }
+
     @Test
     void testAssignArtifactSuccess() throws Exception {
         // Given
@@ -279,4 +278,5 @@ class WizardControllerTest {
                 .andExpect(jsonPath("$.message").value("Could not find artifact with Id 1250808601744904199 :("))
                 .andExpect(jsonPath("$.data").isEmpty());
     }
+
 }

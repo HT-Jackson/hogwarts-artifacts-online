@@ -8,12 +8,11 @@ import edu.tcu.cs.hogwartsartifactsonline.system.StatusCode;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/artifacts")
+@RequestMapping("${api.endpoint.base-url}/artifacts")
 public class ArtifactController {
 
     private final ArtifactService artifactService;
@@ -22,39 +21,37 @@ public class ArtifactController {
 
     private final ArtifactDtoToArtifactConverter artifactDtoToArtifactConverter;
 
+
     public ArtifactController(ArtifactService artifactService, ArtifactToArtifactDtoConverter artifactToArtifactDtoConverter, ArtifactDtoToArtifactConverter artifactDtoToArtifactConverter) {
         this.artifactService = artifactService;
         this.artifactToArtifactDtoConverter = artifactToArtifactDtoConverter;
         this.artifactDtoToArtifactConverter = artifactDtoToArtifactConverter;
     }
 
-
     @GetMapping("/{artifactId}")
-    public Result findArtifactById(@PathVariable String artifactId) {
+    public Result findArtifactById(@PathVariable String artifactId){
         Artifact foundArtifact = this.artifactService.findById(artifactId);
         ArtifactDto artifactDto = this.artifactToArtifactDtoConverter.convert(foundArtifact);
-        return new Result(true, StatusCode.SUCCESS, "Find one success", artifactDto);
+        return new Result(true, StatusCode.SUCCESS, "Find One Success", artifactDto);
     }
 
-
     @GetMapping
-    public Result findAllArtifacts() {
+    public Result findAllArtifacts(){
         List<Artifact> foundArtifacts = this.artifactService.findAll();
-        // convert found artifacts to list of artifactDtos
+        // Convert foundArtifacts to a list of artifactDtos
         List<ArtifactDto> artifactDtos = foundArtifacts.stream()
                 .map(this.artifactToArtifactDtoConverter::convert)
                 .collect(Collectors.toList());
-
-        return new Result(true, StatusCode.SUCCESS, "Find all success", artifactDtos);
+        return new Result(true, StatusCode.SUCCESS, "Find All Success", artifactDtos);
     }
 
     @PostMapping
-    public Result addArtifact(@Valid @RequestBody ArtifactDto artifactDto) {
-        //convert artifactDto to artifact
+    public Result addArtifact(@Valid @RequestBody ArtifactDto artifactDto){
+        // Convert artifactDto to artifact
         Artifact newArtifact = this.artifactDtoToArtifactConverter.convert(artifactDto);
         Artifact savedArtifact = this.artifactService.save(newArtifact);
-       ArtifactDto savedArtifactDto = this.artifactToArtifactDtoConverter.convert(savedArtifact);
-        return new Result(true, StatusCode.SUCCESS, "Add success", savedArtifactDto);
+        ArtifactDto savedArtifactDto = this.artifactToArtifactDtoConverter.convert(savedArtifact);
+        return new Result(true, StatusCode.SUCCESS, "Add Success", savedArtifactDto) ;
     }
 
     @PutMapping("/{artifactId}")
