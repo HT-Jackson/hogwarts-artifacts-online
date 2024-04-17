@@ -12,10 +12,8 @@ public class HogwartsArtifactsOnlineApplication {
         SpringApplication.run(HogwartsArtifactsOnlineApplication.class, args);
     }
 
-
     @Bean
     public IdWorker idWorker() {
         return new IdWorker(1, 1);
-
     }
 }
