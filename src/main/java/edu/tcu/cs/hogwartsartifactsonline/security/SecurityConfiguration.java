@@ -72,11 +72,11 @@ public class SecurityConfiguration {
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll() // Explicitly fallback to antMatcher inside requestMatchers.
                         .anyRequest().authenticated()
                 )
-//                .headers(headers -> headers.frameOptions().disable()) // This is for H2 browser console access.
+                .headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable()) // This is for H2 browser console access.
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(this.customBasicAuthenticationEntryPoint))
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt().and()
+                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(this.customBearerTokenAuthenticationEntryPoint)
                         .accessDeniedHandler(this.customBearerTokenAccessDeniedHandler))
                 .sessionManagement(sessionManagement ->
