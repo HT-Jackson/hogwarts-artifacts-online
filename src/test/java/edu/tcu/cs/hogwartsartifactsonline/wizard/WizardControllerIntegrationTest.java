@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DisplayName("Integration tests for Wizard API endpoints")
 @Tag("integration")
-@ActiveProfiles(value ="dev")
+@ActiveProfiles(value = "dev")
 class WizardControllerIntegrationTest {
 
     @Autowired
