@@ -23,7 +23,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@ActiveProfiles(value ="dev")
+@ActiveProfiles(value = "dev")
 class UserServiceTest {
 
     @Mock
@@ -136,7 +136,7 @@ class UserServiceTest {
         newUser.setEnabled(true);
         newUser.setRoles("user");
 
-//        given(this.passwordEncoder.encode(newUser.getPassword())).willReturn("Encoded Password");
+        given(this.passwordEncoder.encode(newUser.getPassword())).willReturn("Encoded Password");
         given(this.userRepository.save(newUser)).willReturn(newUser);
 
         // When

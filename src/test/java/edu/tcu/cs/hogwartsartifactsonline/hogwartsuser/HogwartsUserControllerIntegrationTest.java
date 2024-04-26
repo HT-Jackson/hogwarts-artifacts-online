@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DisplayName("Integration tests for User API endpoints")
 @Tag("integration")
-@ActiveProfiles(value ="dev")
+@ActiveProfiles(value = "dev")
 class HogwartsUserControllerIntegrationTest {
 
     @Autowired
